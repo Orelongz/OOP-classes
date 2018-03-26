@@ -15,21 +15,21 @@ class Bank {
   }
 
   /**
-   * getName
-   * @desc constructor for phone class
-   * @return {String} name of the bank
-   */
-  getBankName() {
-    return this.bankName;
-  }
-
-  /**
    * welcomeMessage
    * @desc welcomes a customer to the bank
    * @return {String} message
    */
   welcomeMessage() {
-    return `Welcome to ${this.bankName}, how may we be of service today`;
+    return `Welcome to ${this.bankName} bank, how may we be of service today`;
+  }
+
+  /**
+   * goodByeMessage
+   * @desc says goodbye a customer
+   * @return {String} message
+   */
+  goodByeMessage() {
+    return `Thanks for banking with ${this.bankName} bank. Do have a nice day`;
   }
 }
 
@@ -63,7 +63,7 @@ class Customer extends Bank {
       return 'Insufficient fund';
     }
     this.balance -= amount;
-    return this.balance;
+    return `Withdraw of ${amount} naira successfull. New balace is: ${this.balance} naira`;
   }
 
   /**
@@ -74,7 +74,7 @@ class Customer extends Bank {
    */
   deposit(amount) {
     this.balance += amount;
-    return this.balance;
+    return `${amount} naira deposited. New balace is: ${this.balance} naira`;
   }
 
   /**
@@ -93,8 +93,10 @@ class Customer extends Bank {
    * @return {String} bank account
    */
   static genAccount() {
-    return toString(faker.finance.account());
+    return faker.finance.account();
   }
 }
+
+console.log(new Customer());
 
 export { Bank, Customer };

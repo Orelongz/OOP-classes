@@ -9,7 +9,10 @@
   "scripts": {
     "start": "babel-node ./src/app",
     "lint": "eslint --fix src/ test/",
-    "test": "nyc --reporter=html --reporter=text mocha test/ --exit --compilers js:babel-register"
+    "test": "nyc --reporter=html --reporter=text mocha test/ --exit --compilers js:babel-register",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "report-coverage": "cat ./coverage/lcov.info | coveralls",
+    "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -35,6 +38,7 @@
   "homepage": "https://github.com/Orelongz/OOP-classes#readme",
   "dependencies": {
     "chai": "^4.1.2",
+    "coveralls": "^3.0.0",
     "faker": "^4.1.0"
   }
 }

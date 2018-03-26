@@ -3,3 +3,16 @@
 
 
 # OOP CLASS ILLUSTRATION
+An example of object oriented programming using javascript
+
+## Running The Tests Locally
+```
+# Clone the Repo
+git clone https://github.com/Orelongz/OOP-classes.git
+
+# Install dependencies
+npm install
+
+# Run tests
+> npm run test
+```

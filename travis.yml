@@ -6,8 +6,6 @@ notifications:
 cache:
   directories:
     - node_modules
-sudo: false
-dist: trusty
 before_script:
   - npm install
 script:
