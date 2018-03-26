@@ -11,6 +11,10 @@ describe('', () => {
   it('An instance of Customer should be created', (done) => {
     Tobi = new Customer('Tobi', 'Johnson');
     Tobi.should.be.a('object');
+    Tobi.firstname.should.equal('Tobi');
+    Tobi.lastname.should.equal('Johnson');
+    Tobi.should.be.a('object');
+    Tobi.accountNumber.should.be.a('string');
     assert.equal(
       Tobi.checkBalance(),
       'Dear Tobi, your account balance is 0 naira'
@@ -21,8 +25,11 @@ describe('', () => {
   it('An instance of Customer should be created', (done) => {
     Grace = new Customer('Grace', 'Clayton');
     Grace.should.be.a('object');
+    Grace.firstname.should.equal('Grace');
+    Grace.lastname.should.equal('Clayton');
+    Grace.accountNumber.should.be.a('string');
     assert.equal(
-      Tobi.checkBalance(),
+      Grace.checkBalance(),
       'Dear Grace, your account balance is 0 naira'
     );
     done();

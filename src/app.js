@@ -7,7 +7,7 @@ import faker from 'faker';
 class Bank {
   /**
    * constructor
-   * @desc constructor for phone class
+   * @desc constructor for bank class
    * @param {String} bankName the name of the bank
    */
   constructor() {
@@ -31,15 +31,6 @@ class Bank {
   welcomeMessage() {
     return `Welcome to ${this.bankName}, how may we be of service today`;
   }
-
-  /**
-   * genAccount
-   * @desc generates account number for customers
-   * @return {String} bank account
-   */
-  static genAccount() {
-    return faker.finance.account();
-  }
 }
 
 /**
@@ -58,7 +49,7 @@ class Customer extends Bank {
     this.firstname = firstname;
     this.lastname = lastname;
     this.balance = 0;
-    this.accountNumber = super.genAccount();
+    this.accountNumber = Customer.genAccount();
   }
 
   /**
@@ -94,6 +85,15 @@ class Customer extends Bank {
    */
   checkBalance() {
     return `Dear ${this.firstname}, your account balance is ${this.balance} naira`;
+  }
+
+  /**
+   * genAccount
+   * @desc generates account number for customers
+   * @return {String} bank account
+   */
+  static genAccount() {
+    return toString(faker.finance.account());
   }
 }
 
