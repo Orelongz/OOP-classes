@@ -10,8 +10,8 @@ class Bank {
    * @desc constructor for phone class
    * @param {String} bankName the name of the bank
    */
-  constructor(bankName) {
-    this.bankName = bankName;
+  constructor() {
+    this.bankName = 'Infinity';
   }
 
   /**
@@ -30,15 +30,6 @@ class Bank {
    */
   welcomeMessage() {
     return `Welcome to ${this.bankName}, how may we be of service today`;
-  }
-
-  /**
-   * goodByeMessage
-   * @desc says goodbye to a customer
-   * @return {String} message
-   */
-  goodByeMessage() {
-    return 'Thank you for banking with us. Have a nice day';
   }
 
   /**
