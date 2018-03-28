@@ -5,7 +5,7 @@ const { assert, should } = chai;
 should();
 
 describe('Test of inheritance', () => {
-  it('Tobi should not be null', () => {
+  it('Tobi should not be null and should have some properties', () => {
     Tobi.should.be.a('object');
     Tobi.firstname.should.equal('Tobi');
     Tobi.lastname.should.equal('Johnson');
@@ -21,7 +21,7 @@ describe('Test of inheritance', () => {
     );
   });
 
-  it('Grace should not be null', () => {
+  it('Grace should not be null and should have some properties', () => {
     Grace.should.be.a('object');
     Grace.firstname.should.equal('Grace');
     Grace.lastname.should.equal('Clayton');
@@ -55,7 +55,7 @@ describe('Test of inheritance', () => {
 });
 
 describe('Test of abstraction', () => {
-  it('Tobi can deposit money', () => {
+  it('Tobi should be able to deposit money', () => {
     const message = Tobi.deposit(2500);
     assert.equal(
       message,
@@ -67,7 +67,7 @@ describe('Test of abstraction', () => {
     );
   });
 
-  it('Grace can deposit money', () => {
+  it('Grace should be able to deposit money', () => {
     const message = Grace.deposit(2000);
     assert.equal(
       message,
@@ -79,7 +79,7 @@ describe('Test of abstraction', () => {
     );
   });
 
-  it('Tobi can withdraw money', () => {
+  it('Tobi should be able to withdraw money', () => {
     const message = Tobi.withdraw(1500);
     assert.equal(
       message,
@@ -91,7 +91,7 @@ describe('Test of abstraction', () => {
     );
   });
 
-  it('Grace can withdraw money', () => {
+  it('Grace should be able to withdraw money', () => {
     const message = Grace.withdraw(500);
     assert.equal(
       message,
@@ -112,6 +112,18 @@ describe('Test of abstraction', () => {
     assert.equal(
       Tobi.checkBalance(),
       'Dear Tobi, your account balance is 2000 naira'
+    );
+  });
+
+  it('Grace should not withdraw if amount is more than money his in his account', () => {
+    const message = Grace.withdraw(5000);
+    assert.equal(
+      message,
+      'Insufficient fund'
+    );
+    assert.equal(
+      Grace.checkBalance(),
+      'Dear Grace, your account balance is 1500 naira'
     );
   });
 });
