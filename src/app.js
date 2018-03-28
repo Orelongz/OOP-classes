@@ -1,17 +1,79 @@
 import faker from 'faker';
 
+// const id = new WeakMap();
+
 /**
- * @class Bank
+ * @class BankAccount
  * @desc Parent class Bank
  */
-class Bank {
+class BankAccount {
   /**
    * constructor
-   * @desc constructor for bank class
-   * @param {String} bankName the name of the bank
+   * @desc constructor for BankAccount class
+   * @param {String} firstname firstname of the new customer
+   * @param {String} lastname lastname of the new customer
+   * @param {String} amount amount deposited while opening the account
    */
-  constructor() {
+  constructor(firstname, lastname, amount = 0) {
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.balance = amount;
+    this.accountNumber = faker.finance.account();
+    this.id = BankAccount.genId();
     this.bankName = 'Infinity';
+  }
+
+  /**
+   * genId
+   * @desc generates ids for each account created
+   * @return {Integer} account id
+   */
+  static genId() {
+    this.count = (this.count || 0) + 1;
+    return this.count;
+  }
+
+  /**
+   * withdraw
+   * @desc handles withdrawal of money
+   * @param {Number} amount amount of money to withdraw
+   * @return {String} message
+   */
+  withdraw(amount) {
+    if (this.balance < amount) {
+      return 'Insufficient fund';
+    }
+    this.balance -= amount;
+    return `Withdrawal of ${amount} naira successfull. New balace is: ${this.balance} naira`;
+  }
+
+  /**
+   * deposit
+   * @desc handles deposit of money
+   * @param {Number} amount amount of money to deposit
+   * @return {String} message
+   */
+  deposit(amount) {
+    this.balance += amount;
+    return `${amount} naira deposited. New balace is: ${this.balance} naira`;
+  }
+
+  /**
+   * checkBalance
+   * @desc returns the customers account balance
+   * @return {String} message
+   */
+  checkBalance() {
+    return `Dear ${this.firstname}, your account balance is ${this.balance} naira`;
+  }
+
+  /**
+   * accountType
+   * @desc account type
+   * @return {String} message
+   */
+  accountDetail() {
+    return `Dear ${this.firstname}, you are running a ${this.accountType} account`;
   }
 
   /**
@@ -29,74 +91,66 @@ class Bank {
    * @return {String} message
    */
   goodByeMessage() {
-    return `Thanks for banking with ${this.bankName} bank. Do have a nice day`;
+    return `Thank you for banking with ${this.bankName} bank. Do have a nice day`;
   }
 }
 
 /**
- * @class Customer
- * @desc transactions that could be done by a customer
+ * @class SavingsAccount
+ * @desc transactions available on savings account
  */
-class Customer extends Bank {
+class SavingsAccount extends BankAccount {
   /**
    * constructor
-   * @desc constructor for phone class
-   * @param {String} firstname firstname of the new customer
-   * @param {String} lastname lastname of the new customer
+   * @desc constructor for SavingsAccount class
+   * @param {Array} args all arguments in super class contructor
+   * @param {Integer} amount amount deposited for opening the account
    */
-  constructor(firstname, lastname) {
-    super();
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.balance = 0;
-    this.accountNumber = Customer.genAccount();
+  constructor(...args) {
+    super(...args);
+    this.accountType = 'Savings';
   }
 
   /**
-   * withdraw
-   * @desc handles withdrawal of money
-   * @param {Number} amount amount of money to withdraw
+   * accountType
+   * @desc account type
    * @return {String} message
    */
-  withdraw(amount) {
-    if (this.balance < amount) {
-      return 'Insufficient fund';
-    }
-    this.balance -= amount;
-    return `Withdraw of ${amount} naira successfull. New balace is: ${this.balance} naira`;
-  }
-
-  /**
-   * deposit
-   * @desc handles deposit of money
-   * @param {Number} amount amount of money to deposit
-   * @return {String} message
-   */
-  deposit(amount) {
-    this.balance += amount;
-    return `${amount} naira deposited. New balace is: ${this.balance} naira`;
-  }
-
-  /**
-   * checkBalance
-   * @desc returns the customers account balance
-   * @param {Number} amount amount of money to deposit
-   * @return {String} message
-   */
-  checkBalance() {
-    return `Dear ${this.firstname}, your account balance is ${this.balance} naira`;
-  }
-
-  /**
-   * genAccount
-   * @desc generates account number for customers
-   * @return {String} bank account
-   */
-  static genAccount() {
-    return faker.finance.account();
+  accountDetail() {
+    return super.accountDetail();
   }
 }
 
-console.log(new Customer());
+/**
+ * @class CurrentAccount
+ * @desc transactions available on current account
+ */
+class CurrentAccount extends BankAccount {
+  /**
+   * constructor
+   * @desc constructor for Current class
+   * @param {Array} args all arguments in super class contructor
+   * @param {Integer} amount amount deposited for opening the account
+   */
+  constructor(...args) {
+    super(...args);
+    this.accountType = 'Current';
+  }
 
-export { Bank, Customer };
+  /**
+   * accountType
+   * @desc account type
+   * @return {String} message
+   */
+  accountDetail() {
+    return super.accountDetail();
+  }
+}
+
+const Tobi = new SavingsAccount('Tobi', 'Johnson', 1000);
+const Grace = new CurrentAccount('Grace', 'Clayton');
+
+console.log(Tobi);
+console.log(Grace);
+
+export { SavingsAccount, CurrentAccount, Tobi, Grace };

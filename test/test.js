@@ -1,152 +1,141 @@
 import chai from 'chai';
-import { Customer } from './../src/app';
+import { SavingsAccount, CurrentAccount, Tobi, Grace } from './../src/app';
 
 const { assert, should } = chai;
 should();
 
-let Tobi;
-let Grace;
-
-describe('', () => {
-  it('An instance of Customer should be created', (done) => {
-    Tobi = new Customer('Tobi', 'Johnson');
+describe('Test of inheritance', () => {
+  it('Tobi should not be null', () => {
     Tobi.should.be.a('object');
     Tobi.firstname.should.equal('Tobi');
     Tobi.lastname.should.equal('Johnson');
-    Tobi.should.be.a('object');
     Tobi.accountNumber.should.be.a('string');
+    Tobi.id.should.be.a('number');
     assert.equal(
       Tobi.checkBalance(),
-      'Dear Tobi, your account balance is 0 naira'
+      'Dear Tobi, your account balance is 1000 naira'
     );
-    done();
+    assert.equal(
+      Tobi.accountType,
+      'Savings'
+    );
   });
 
-  it('An instance of Customer should be created', (done) => {
-    Grace = new Customer('Grace', 'Clayton');
+  it('Grace should not be null', () => {
     Grace.should.be.a('object');
     Grace.firstname.should.equal('Grace');
     Grace.lastname.should.equal('Clayton');
     Grace.accountNumber.should.be.a('string');
+    Grace.id.should.be.a('number');
     assert.equal(
       Grace.checkBalance(),
       'Dear Grace, your account balance is 0 naira'
     );
-    done();
+    assert.equal(
+      Grace.accountType,
+      'Current'
+    );
   });
 
-  it('Tobi and Grace should be an instance of Customer', (done) => {
+  it('Tobi should be an instance of SavingsAccount', () => {
     assert.instanceOf(
       Tobi,
-      Customer,
-      'Tobi is an instance of class Customer'
+      SavingsAccount,
+      'Tobi is an instance of class SavingsAccount'
     );
+  });
+
+  it('Grace should be an instance of CurrentAccount', () => {
     assert.instanceOf(
       Grace,
-      Customer,
-      'Tobi is an instance of class Customer'
+      CurrentAccount,
+      'Grace is an instance of class CurrentAccount'
     );
-    done();
   });
+});
 
-  it('Customers should be assigned an account number on creation', (done) => {
-    Tobi.accountNumber.should.be.a('string');
-    Grace.accountNumber.should.be.a('string');
-    done();
-  });
-
-  it('Test of inheritance', (done) => {
-    assert.equal(
-      Tobi.balance,
-      Grace.balance
-    );
-    assert.equal(
-      typeof Tobi.accountNumber,
-      typeof Grace.accountNumber
-    );
-    assert.equal(
-      Tobi.bankName,
-      Grace.bankName
-    );
-    done();
-  });
-
-  it('Test of polymorphism', (done) => {
-    assert.notEqual(
-      Tobi.firstname,
-      Grace.firstname
-    );
-    assert.notEqual(
-      Tobi.lastname,
-      Grace.lastname
-    );
-    assert.notEqual(
-      Tobi.accountNumber,
-      Grace.accountNumber
-    );
-    done();
-  });
-
-  it('Instances of customer should have access to base class methods', (done) => {
-    assert.equal(
-      Tobi.welcomeMessage(),
-      'Welcome to Infinity bank, how may we be of service today'
-    );
-    assert.equal(
-      Grace.welcomeMessage(),
-      'Welcome to Infinity bank, how may we be of service today'
-    );
-    done();
-  });
-
-  it('Customer should be able to deposit into their account', (done) => {
-    const message = Tobi.deposit(500);
+describe('Test of abstraction', () => {
+  it('Tobi can deposit money', () => {
+    const message = Tobi.deposit(2500);
     assert.equal(
       message,
-      '500 naira deposited. New balace is: 500 naira'
+      '2500 naira deposited. New balace is: 3500 naira'
     );
     assert.equal(
       Tobi.checkBalance(),
-      'Dear Tobi, your account balance is 500 naira'
+      'Dear Tobi, your account balance is 3500 naira'
     );
-    done();
   });
 
-  it('Customer should not be able to withdraw if amount is greater than account balance', (done) => {
-    const message = Tobi.withdraw(1000);
+  it('Grace can deposit money', () => {
+    const message = Grace.deposit(2000);
     assert.equal(
       message,
-      'Insufficient fund'
+      '2000 naira deposited. New balace is: 2000 naira'
+    );
+    assert.equal(
+      Grace.checkBalance(),
+      'Dear Grace, your account balance is 2000 naira'
+    );
+  });
+
+  it('Tobi can withdraw money', () => {
+    const message = Tobi.withdraw(1500);
+    assert.equal(
+      message,
+      'Withdrawal of 1500 naira successfull. New balace is: 2000 naira'
     );
     assert.equal(
       Tobi.checkBalance(),
-      'Dear Tobi, your account balance is 500 naira'
+      'Dear Tobi, your account balance is 2000 naira'
     );
-    done();
   });
 
-  it('Customer should able to withdraw if amount is less than or equal to account balance', (done) => {
-    const message = Tobi.withdraw(300);
+  it('Grace can withdraw money', () => {
+    const message = Grace.withdraw(500);
     assert.equal(
       message,
-      'Withdraw of 300 naira successfull. New balace is: 200 naira'
+      'Withdrawal of 500 naira successfull. New balace is: 1500 naira'
     );
     assert.equal(
-      Tobi.checkBalance(),
-      'Dear Tobi, your account balance is 200 naira'
+      Grace.checkBalance(),
+      'Dear Grace, your account balance is 1500 naira'
     );
-    done();
+  });
+});
+
+describe('Test of polymorphism', () => {
+  it('Tobi should be operating a savings account', () => {
+    const message = Tobi.accountDetail();
+    assert.equal(
+      message,
+      'Dear Tobi, you are running a Savings account'
+    );
   });
 
-  it('Customers should be able to access goodbyeMessage in base class', (done) => {
+  it('Grace should be operating a currnet account', () => {
+    const message = Grace.accountDetail();
     assert.equal(
-      Tobi.goodByeMessage(),
-      'Thanks for banking with Infinity bank. Do have a nice day'
+      message,
+      'Dear Grace, you are running a Current account'
     );
+  });
+});
+
+describe('Test of encapsulation', () => {
+  it('Tobi should be operating a savings account', () => {
+    const message = Tobi.accountDetail();
     assert.equal(
-      Tobi.goodByeMessage(),
-      'Thanks for banking with Infinity bank. Do have a nice day'
+      message,
+      'Dear Tobi, you are running a Savings account'
     );
-    done();
+  });
+
+  it('Grace should be operating a currnet account', () => {
+    const message = Grace.accountDetail();
+    assert.equal(
+      message,
+      'Dear Grace, you are running a Current account'
+    );
   });
 });
