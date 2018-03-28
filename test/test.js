@@ -102,27 +102,21 @@ describe('Test of abstraction', () => {
       'Dear Grace, your account balance is 1500 naira'
     );
   });
+
+  it('Tobi should not withdraw if amount is more than money his in his account', () => {
+    const message = Tobi.withdraw(2500);
+    assert.equal(
+      message,
+      'Insufficient fund'
+    );
+    assert.equal(
+      Tobi.checkBalance(),
+      'Dear Tobi, your account balance is 2000 naira'
+    );
+  });
 });
 
 describe('Test of polymorphism', () => {
-  it('Tobi should be operating a savings account', () => {
-    const message = Tobi.accountDetail();
-    assert.equal(
-      message,
-      'Dear Tobi, you are running a Savings account'
-    );
-  });
-
-  it('Grace should be operating a currnet account', () => {
-    const message = Grace.accountDetail();
-    assert.equal(
-      message,
-      'Dear Grace, you are running a Current account'
-    );
-  });
-});
-
-describe('Test of encapsulation', () => {
   it('Tobi should be operating a savings account', () => {
     const message = Tobi.accountDetail();
     assert.equal(

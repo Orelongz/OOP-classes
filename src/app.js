@@ -1,7 +1,5 @@
 import faker from 'faker';
 
-// const id = new WeakMap();
-
 /**
  * @class BankAccount
  * @desc Parent class Bank
@@ -15,12 +13,60 @@ class BankAccount {
    * @param {String} amount amount deposited while opening the account
    */
   constructor(firstname, lastname, amount = 0) {
-    this.firstname = firstname;
-    this.lastname = lastname;
+    this.firstNameValue = firstname;
+    this.lastNameValue = lastname;
     this.balance = amount;
     this.accountNumber = faker.finance.account();
     this.id = BankAccount.genId();
     this.bankName = 'Infinity';
+  }
+
+  /**
+   * firstname getter
+   * @desc gets firstname
+   * @return {String} message
+   */
+  get firstname() {
+    return this.firstNameValue;
+  }
+
+  /**
+   * firstname setter
+   * @desc sets firstname
+   * @param {String} value firstname of customer
+   * @return {String} message
+   */
+  set firstname(value) {
+    if (value &&
+      value.trim().length > 1 &&
+      typeof value === 'string'
+    ) {
+      this.firstNameValue = value;
+    }
+  }
+
+  /**
+   * lastname
+   * @desc gets lastname
+   * @return {String} message
+   */
+  get lastname() {
+    return this.lastNameValue;
+  }
+
+  /**
+   * lastname
+   * @desc sets firstname
+   * @param {String} value lastname of customer
+   * @return {String} message
+   */
+  set lastname(value) {
+    if (value &&
+      value.trim().length > 1 &&
+      typeof value === 'string'
+    ) {
+      this.lastNameValue = value;
+    }
   }
 
   /**
@@ -74,24 +120,6 @@ class BankAccount {
    */
   accountDetail() {
     return `Dear ${this.firstname}, you are running a ${this.accountType} account`;
-  }
-
-  /**
-   * welcomeMessage
-   * @desc welcomes a customer to the bank
-   * @return {String} message
-   */
-  welcomeMessage() {
-    return `Welcome to ${this.bankName} bank, how may we be of service today`;
-  }
-
-  /**
-   * goodByeMessage
-   * @desc says goodbye a customer
-   * @return {String} message
-   */
-  goodByeMessage() {
-    return `Thank you for banking with ${this.bankName} bank. Do have a nice day`;
   }
 }
 
@@ -149,8 +177,5 @@ class CurrentAccount extends BankAccount {
 
 const Tobi = new SavingsAccount('Tobi', 'Johnson', 1000);
 const Grace = new CurrentAccount('Grace', 'Clayton');
-
-console.log(Tobi);
-console.log(Grace);
 
 export { SavingsAccount, CurrentAccount, Tobi, Grace };
