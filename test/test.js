@@ -125,11 +125,28 @@ describe('Test of polymorphism', () => {
     );
   });
 
-  it('Grace should be operating a currnet account', () => {
+  it('Grace should be operating a current account', () => {
     const message = Grace.accountDetail();
     assert.equal(
       message,
       'Dear Grace, you are running a Current account'
     );
+  });
+});
+
+describe('Test of encapsulation', () => {
+  it('Grace\'s bvn should not be shown', () => {
+    assert.isUndefined(
+      Grace.BVN,
+      'Grace\'s BVN number can not be accessed outside the CurrentAccount class'
+    );
+  });
+
+  it('Grace\'s bvn can only be accessed by a method within the CurrentAccount class', () => {
+    Grace.bvnNumber().should.be.a('string');
+  });
+
+  it('Tobi\'s bvn can only be accessed by a method within the savingsAccount class', () => {
+    Tobi.bvnNumber().should.be.a('string');
   });
 });

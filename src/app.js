@@ -1,5 +1,7 @@
 import faker from 'faker';
 
+const privates = new WeakMap();
+
 /**
  * @class BankAccount
  * @desc Parent class Bank
@@ -13,60 +15,12 @@ class BankAccount {
    * @param {String} amount amount deposited while opening the account
    */
   constructor(firstname, lastname, amount = 0) {
-    this.firstNameValue = firstname;
-    this.lastNameValue = lastname;
+    this.firstname = firstname;
+    this.lastname = lastname;
     this.balance = amount;
     this.accountNumber = faker.finance.account();
     this.id = BankAccount.genId();
     this.bankName = 'Infinity';
-  }
-
-  /**
-   * firstname getter
-   * @desc gets firstname
-   * @return {String} message
-   */
-  get firstname() {
-    return this.firstNameValue;
-  }
-
-  /**
-   * firstname setter
-   * @desc sets firstname
-   * @param {String} value firstname of customer
-   * @return {String} message
-   */
-  set firstname(value) {
-    if (value &&
-      value.trim().length > 1 &&
-      typeof value === 'string'
-    ) {
-      this.firstNameValue = value;
-    }
-  }
-
-  /**
-   * lastname
-   * @desc gets lastname
-   * @return {String} message
-   */
-  get lastname() {
-    return this.lastNameValue;
-  }
-
-  /**
-   * lastname
-   * @desc sets firstname
-   * @param {String} value lastname of customer
-   * @return {String} message
-   */
-  set lastname(value) {
-    if (value &&
-      value.trim().length > 1 &&
-      typeof value === 'string'
-    ) {
-      this.lastNameValue = value;
-    }
   }
 
   /**
@@ -137,6 +91,7 @@ class SavingsAccount extends BankAccount {
   constructor(...args) {
     super(...args);
     this.accountType = 'Savings';
+    privates.set(this, { BVN: faker.finance.account() });
   }
 
   /**
@@ -146,6 +101,15 @@ class SavingsAccount extends BankAccount {
    */
   accountDetail() {
     return super.accountDetail();
+  }
+
+  /**
+   * bvnNumber
+   * @desc account type
+   * @return {String} message
+   */
+  bvnNumber() {
+    return `Your BVN no: ${privates.get(this).BVN}`;
   }
 }
 
@@ -163,6 +127,7 @@ class CurrentAccount extends BankAccount {
   constructor(...args) {
     super(...args);
     this.accountType = 'Current';
+    privates.set(this, { BVN: faker.finance.account() });
   }
 
   /**
@@ -173,9 +138,22 @@ class CurrentAccount extends BankAccount {
   accountDetail() {
     return super.accountDetail();
   }
+
+  /**
+   * bvnNumber
+   * @desc account type
+   * @return {String} message
+   */
+  bvnNumber() {
+    return `Your BVN no: ${privates.get(this).BVN}`;
+  }
 }
 
 const Tobi = new SavingsAccount('Tobi', 'Johnson', 1000);
 const Grace = new CurrentAccount('Grace', 'Clayton');
+
+console.log(Grace);
+console.log(Grace.BVN);
+console.log(Grace.bvnNumber());
 
 export { SavingsAccount, CurrentAccount, Tobi, Grace };
